@@ -1,54 +1,58 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.4) #минимальная поддерживаемая версия симейка
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)  # стандарт языка си плюс плюс
+set(CMAKE_CXX_STANDARD_REQUIRED ON) # не принимать другую версию языка
 
 option(BUILD_COVERAGE "Build coverage" OFF)
 
-set(
+set( #кеш хантергейта
   HUNTER_CACHE_SERVERS
   "https://github.com/bmstu-iu8-cpp-sem-3/hunter-cache"
   CACHE STRING "Default cache server"
 )
 
-include("tools/gate/cmake/HunterGate.cmake")
+include("tools/gate/cmake/HunterGate.cmake") # включаю симейк с хантергейтом
 
-HunterGate(
+HunterGate( # стягивает в проект хантер, т.е. менеджер пакетов. ссылка на актив и хеш-сумма
   URL "https://github.com/cpp-pm/hunter/archive/v0.23.278.tar.gz"
   SHA1 "35fa55bc1dfcf9f4d7264f8bb26cd1759ce1ae07"
 )
 
-# TODO: rename project and delete this comment
-project(template)
-string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
+
+project(parser) # имя проекта
+string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra") #флаги компилятора
 string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
-hunter_add_package(GTest)
+hunter_add_package(GTest) #скачать библеотеку Гтест
 find_package(GTest CONFIG REQUIRED)
 
-# TODO: change template word to project name and delete this comment
-add_library(template STATIC
+
+add_library(parser STATIC # добавить библеотеку к проекту # статическая - компилируется вместе с программой
+        # статическая включается, динамическая одна, и программы берут из нее нужные функции
   # enum your files and delete this comment
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/header.hpp #статическая библеотека собирается из этих файлов
 )
-add_executable(tests
-  # TODO: enum your files and delete this comment
+add_executable(tests #добавляем исполняемый файл к проекту - тест, собирается из этого исходника.
+        # туда пишем тесты, они скомпилируются и прогонятся
+
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
 )
 
-# TODO: change template word to project name and delete this comment
-target_include_directories(template
+
+target_include_directories(parser #можем инклудить в любой файл ПРОЕКТА ПАРСЕР  любые файлы из папки инклуд
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-target_include_directories(tests
+target_include_directories(tests # эту же папку разрешаем инклудить из тестс
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-# TODO: change template word to project name and delete this comment
-target_link_libraries(tests GTest::gtest_main template)
+
+target_link_libraries(tests GTest::gtest_main parser) #указываем линкеру какие библеотеки мы собираем
+# и линкуем к бинарнику
 
 enable_testing()
-add_test(NAME unit_tests COMMAND tests)
+add_test(NAME unit_tests COMMAND tests) #добавляем тесты с именем юнит-тестс который запускается командой тестс
 
 if(BUILD_COVERAGE)
   function(ENABLE_PROJECT_COVERAGE PROJECT)
@@ -60,8 +64,8 @@ if(BUILD_COVERAGE)
   set(ENABLE_COVERAGE ON CACHE BOOL "Enable coverage build." FORCE)
   list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
   find_package(codecov)
-  # TODO: change template word to project name and delete this comment
-  enable_project_coverage(template)
+
+  enable_project_coverage(parser)
   enable_project_coverage(tests)
   list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/tests/*'")
   coverage_evaluate()
