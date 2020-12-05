@@ -27,13 +27,15 @@ string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 hunter_add_package(GTest) #скачать библеотеку Гтест
 find_package(GTest CONFIG REQUIRED)
 
+hunter_add_package(nlohmann_json)
+find_package(nlohmann_json CONFIG REQUIRED) #настроить все пути в рамках проекта
 
 add_library(parser STATIC # добавить библеотеку к проекту # статическая - компилируется вместе с программой
         # статическая включается, динамическая одна, и программы берут из нее нужные функции
   # enum your files and delete this comment
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/header.hpp #статическая библеотека собирается из этих файлов
-)
+        include/JsonAnySerializer.h)
 add_executable(tests #добавляем исполняемый файл к проекту - тест, собирается из этого исходника.
         # туда пишем тесты, они скомпилируются и прогонятся
 
@@ -49,6 +51,7 @@ target_include_directories(tests # эту же папку разрешаем и�
 )
 
 target_link_libraries(tests GTest::gtest_main parser) #указываем линкеру какие библеотеки мы собираем
+target_link_libraries(parser nlohmann_json)
 # и линкуем к бинарнику
 
 enable_testing()
