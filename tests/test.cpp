@@ -84,6 +84,43 @@ TEST(ErrorHandling, ItemsIsNotArray) {
 }
 
 TEST(FeauturesTesting, TableTesting) {
+  std::fstream file{"test.json", std::ios::out};
+  if (!file.is_open()) {
+    FAIL() << "Unable to open \"test.json\"" << std::endl;
+  }
+  std::string jsonString = R"(
+{
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": 4,
+      "debt": "C++"
+    },
+    {
+      "name": "Pertov Nikita",
+      "group": "IU8-31",
+      "avg": 3.33,
+      "debt": [
+        "C++",
+        "Linux",
+        "Network"
+      ]
+    }
+  ],
+  "_meta": {
+    "count": 3
+  }
+}
+)";
+  file << jsonString;
+  file.close();
   std::string table =
       R"(| name          | group     | avg         | debt       |
 |---------------|-----------|-------------|------------|
