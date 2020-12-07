@@ -2,8 +2,8 @@
 // Created by ubuntu on 05.12.2020.
 //
 
-#ifndef PARSER_JSONANYSERIALIZER_H
-#define PARSER_JSONANYSERIALIZER_H
+#ifndef PARSER_JSONANYSERIALIZER_H_
+#define PARSER_JSONANYSERIALIZER_H_
 
 #include <any>
 #include <nlohmann/json.hpp>
@@ -46,3 +46,5 @@ struct adl_serializer<std::any> {
   }
 };
 }  // namespace nlohmann
+
+#endif

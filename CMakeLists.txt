@@ -51,7 +51,7 @@ target_include_directories(tests # эту же папку разрешаем и�
 )
 
 target_link_libraries(tests GTest::gtest_main parser) #указываем линкеру какие библеотеки мы собираем
-target_link_libraries(parser nlohmann_json)
+target_link_libraries(parser nlohmann_json::nlohmann_json)
 # и линкуем к бинарнику
 
 enable_testing()
