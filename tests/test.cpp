@@ -9,13 +9,13 @@
 #include <string>
 #include <vector>
 
-TEST(ErrorHandling, UnableToOpenJSONFile) {
+TEST(ErrorTests, UnableToOpenJSONFile) {
   std::vector<Student> students;
   EXPECT_THROW(students = LoadFromFile("path/to/incorrect/file.json"),
                std::runtime_error);
 }
 
-TEST(ErrorHandling, MismatchingArraySizeWith_meta) {
+TEST(ErrorTests, MismatchingArraySizeWith_meta) {
   std::fstream file{"mismatching_array_size.json", std::ios::out};
   if (!file.is_open()) {
     FAIL() << "Unable to open \"mismatching_array_size.json\"" << std::endl;
@@ -58,7 +58,7 @@ TEST(ErrorHandling, MismatchingArraySizeWith_meta) {
                std::runtime_error);
 }
 
-TEST(ErrorHandling, ItemsIsNotArray) {
+TEST(ErrorTests, ItemsIsNotArray) {
   std::fstream file{"items_is_not_array.json", std::ios::out};
   if (!file.is_open()) {
     FAIL() << "Unable to open \"items_is_not_array.json\"" << std::endl;
@@ -83,7 +83,7 @@ TEST(ErrorHandling, ItemsIsNotArray) {
                std::runtime_error);
 }
 
-TEST(FeauturesTesting, TableTesting) {
+TEST(WorkTesting, TestTable) {
   std::fstream file{"test.json", std::ios::out};
   if (!file.is_open()) {
     FAIL() << "Unable to open \"test.json\"" << std::endl;
@@ -131,8 +131,8 @@ TEST(FeauturesTesting, TableTesting) {
 |Pertov Nikita  | IU8-31    | 3.33        | 3 items    |
 |---------------|-----------|-------------|------------|
 )";
-  std::stringstream PrintTableExhaust;
+  std::stringstream PrintTableStream;
   auto students = LoadFromFile("test.json");
-  PrintTable(students, PrintTableExhaust);
-  EXPECT_EQ(PrintTableExhaust.str(), table);
+  Print(students, PrintTableStream);
+  EXPECT_EQ(PrintTableStream.str(), table);
 }
