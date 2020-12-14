@@ -3,9 +3,9 @@
 #include <fstream>
 #include <header.hpp>
 #include <iomanip>
-#include <nlohmann/json.hpp>
 #include <sstream>
 #include <stdexcept>
+#include <nlohmann/json.hpp>
 
 const int RowSizes[4] = {14, 10, 12, 11};
 
@@ -134,3 +134,4 @@ void Print(const std::vector<Student> &students, std::ostream &stream) {
     stream << std::endl << TableLine << std::endl;
   }
 }
+
