@@ -9,13 +9,13 @@
 #include <string>
 #include <vector>
 
-TEST(ErrorTests, UnableToOpenJSONFile) {
+TEST(ErrorHandling, UnableToOpenJSONFile) {
   std::vector<Student> students;
   EXPECT_THROW(students = LoadFromFile("path/to/incorrect/file.json"),
                std::runtime_error);
 }
 
-TEST(ErrorTests, MismatchingArraySizeWith_meta) {
+TEST(ErrorHandling, MismatchingArraySizeWith_meta) {
   std::fstream file{"mismatching_array_size.json", std::ios::out};
   if (!file.is_open()) {
     FAIL() << "Unable to open \"mismatching_array_size.json\"" << std::endl;
@@ -58,7 +58,7 @@ TEST(ErrorTests, MismatchingArraySizeWith_meta) {
                std::runtime_error);
 }
 
-TEST(ErrorTests, ItemsIsNotArray) {
+TEST(ErrorHandling, ItemsIsNotArray) {
   std::fstream file{"items_is_not_array.json", std::ios::out};
   if (!file.is_open()) {
     FAIL() << "Unable to open \"items_is_not_array.json\"" << std::endl;
@@ -83,7 +83,7 @@ TEST(ErrorTests, ItemsIsNotArray) {
                std::runtime_error);
 }
 
-TEST(WorkTesting, TestTable) {
+TEST(FeauturesTesting, TestTable) {
   std::fstream file{"test.json", std::ios::out};
   if (!file.is_open()) {
     FAIL() << "Unable to open \"test.json\"" << std::endl;
