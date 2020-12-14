@@ -17,8 +17,6 @@ struct Student {
   std::any debt;
 };
 
-
-
 void Print(const Student &student, std::ostream &os);
 void Print(const std::vector<Student> &students, std::ostream &os);
 

@@ -7,7 +7,7 @@
 #include <sstream>
 #include <stdexcept>
 
-const int RowSizes[4]={14,10,12,11};
+const int RowSizes[4] = {14, 10, 12, 11};
 
 std::string GetName(const json &j) { return j.get<std::string>(); }
 
@@ -74,30 +74,40 @@ std::vector<Student> LoadFromFile(const std::string &filepath) {
 }
 
 void Print(const Student &student, std::ostream &stream) {
-  stream << "|" << std::left << std::setw(RowSizes[0]+1) << student.name;
+  stream << "|" << std::left << std::setw(RowSizes[0] + 1) << student.name;
 
   if (student.group.type() == typeid(int)) {
-    stream << "| " << std::setw(RowSizes[1]) << std::left<< std::any_cast<int>(student.group);
+    stream << "| " << std::setw(RowSizes[1]) << std::left
+           << std::any_cast<int>(student.group);
   } else {
     stream << "| " << std::setw(RowSizes[1]) << std::left
-       << std::any_cast<std::string>(student.group);
+           << std::any_cast<std::string>(student.group);
   }
 
   if (student.avg.type() == typeid(float)) {
-    stream << "| " << std::setw(RowSizes[2]) << std::left<< std::any_cast<float>(student.avg);
+    stream << "| " << std::setw(RowSizes[2]) << std::left
+           << std::any_cast<float>(student.avg);
   } else if (student.avg.type() == typeid(int)) {
-    stream << "| " << std::setw(RowSizes[2]) << std::left << std::any_cast<int>(student.avg);
+    stream << "| " << std::setw(RowSizes[2]) << std::left
+           << std::any_cast<int>(student.avg);
   } else {
-    stream << "| " << std::setw(RowSizes[2]) << std::left << std::any_cast<std::string>(student.avg);
+    stream << "| " << std::setw(RowSizes[2]) << std::left
+           << std::any_cast<std::string>(student.avg);
   }
 
   if (student.debt.type() == typeid(std::nullptr_t)) {
-    stream << "| " << std::setw(RowSizes[3]) << std::left << "none" << std::right << "|";
+    stream << "| " << std::setw(RowSizes[3]) << std::left << "none"
+           << std::right << "|";
   } else if (student.debt.type() == typeid(std::string)) {
-    stream << "| " << std::setw(RowSizes[3]) << std::left << std::any_cast<std::string>(student.debt) << std::right << "|";
+    stream << "| " << std::setw(RowSizes[3]) << std::left
+           << std::any_cast<std::string>(student.debt) << std::right << "|";
   } else {
-    stream<< "| " << std::setw(RowSizes[3]) << std::left << (std::to_string(std::any_cast<std::vector<std::string>>(student.debt).size())
-       + " items") << "|";
+    stream
+        << "| " << std::setw(RowSizes[3]) << std::left
+        << (std::to_string(
+                std::any_cast<std::vector<std::string>>(student.debt).size()) +
+            " items")
+        << "|";
   }
 }
 
